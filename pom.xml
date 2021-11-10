@@ -6,7 +6,7 @@
 
     <groupId>io.gitee.blogg</groupId>
     <artifactId>json2sql</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 
     <properties>
         <java.version>11</java.version>
@@ -61,7 +61,7 @@
 
     <build>
         <plugins>
-            <!--将组件部署到 OSSRH 并将其发布到 Central Repository-->
+            <!--发布到sonatype nexus后自动同步发布到maven中央仓库-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
