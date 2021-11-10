@@ -4,9 +4,11 @@ package com.jq;
 import com.jq.api.JSONParser;
 import com.jq.api.JSONWriter;
 import com.jq.config.Configuration;
+import com.jq.impl.ConvertProcessor;
 import com.jq.impl.DefaultJSONParser;
 import com.jq.impl.DefaultJSONWriter;
 
+import java.util.List;
 import java.util.Map;
 
 public class Json2sql {
@@ -35,10 +37,40 @@ public class Json2sql {
         jsonWriter.writer(sqlParamMap, outPath, tableName + ".sql");
     }
 
+    /**
+     * 将json解析成sql
+     *
+     * @param json      json字符串
+     * @param tableName 表名字
+     * @return string
+     */
     public static String parse2String(String json, String tableName) {
         Map<String, Object> sqlParamMap = parser(json, tableName);
         JSONWriter jsonWriter = new DefaultJSONWriter();
         return jsonWriter.writer(sqlParamMap);
+    }
+
+    /**
+     * 将json解析成map
+     *
+     * @param json json字符串
+     * @return map
+     */
+    public static Map<String, Object> parse2Map(String json) {
+        return parser(json, "test");
+    }
+
+    /**
+     * 将json解析成 list
+     *
+     * @param json  json字符串
+     * @param clazz list类型
+     * @return list集合
+     */
+    public static <T> List<T> parse2List(String json, Class<T> clazz) {
+        Map<String, Object> map = parser(json, "test");
+        ConvertProcessor convertProcessor = new ConvertProcessor();
+        return convertProcessor.mapToList(map, clazz);
     }
 
     private static Map<String, Object> parser(String json, String tableName) {

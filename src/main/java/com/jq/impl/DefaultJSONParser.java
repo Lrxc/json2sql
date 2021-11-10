@@ -24,7 +24,7 @@ public class DefaultJSONParser extends AbstractJSONParser {
         }, false);
 
         Map<String, String> createTableNeedParamMap = createCreateTableMap(maps);
-        List insertDTOS = createCRUDTableDTO(maps);
+        List<InsertDTO> insertDTOS = createCRUDTableDTO(maps);
 
         Map<String, Object> sqlParamMap = new HashMap<>();
         sqlParamMap.put("tableName", tableName);
