@@ -6,12 +6,14 @@
 
     <groupId>io.gitee.blogg</groupId>
     <artifactId>json2sql</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.4</version>
 
     <properties>
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <!--打包跳过测试-->
+        <skipTests>true</skipTests>
     </properties>
 
     <dependencies>
@@ -20,13 +22,11 @@
             <artifactId>hutool-all</artifactId>
             <version>5.7.15</version>
         </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>29.0-jre</version>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -35,29 +35,33 @@
         </dependency>
     </dependencies>
 
+    <!--分析到 OSSRH 仓库,必须填写-->
+    <name>json2sql</name>
+    <description>A java tool class that json goes to sql</description>
+    <url>https://gitee.com/blogg/json2sql</url>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
         </license>
     </licenses>
     <developers>
         <developer>
             <!--输入在sonatype创建的账户和联系邮箱 -->
-            <name>wangxin</name>
+            <name>rxc</name>
             <email>837533730@qq.com</email>
-            <url>hhttps://gitee.com/blogg/json2sql</url>
         </developer>
     </developers>
     <scm>
-        <url>hhttps://gitee.com/blogg/json2sql</url>
-        <connection>git@gitee.com:blogg/json2sql.git</connection>
+        <connection>https://gitee.com/blogg/json2sql</connection>
         <developerConnection>https://gitee.com/blogg/json2sql</developerConnection>
+        <url>https://gitee.com/blogg/json2sql</url>
     </scm>
 
     <build>
         <plugins>
+            <!--将组件部署到 OSSRH 并将其发布到 Central Repository-->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -66,11 +70,46 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-
-
+            <!--源码附件︎-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--Javadoc-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <source>11</source>
+                    <aggregate>true</aggregate>
+                    <charset>UTF-8</charset>
+                    <encoding>UTF-8</encoding>
+                    <docencoding>UTF-8</docencoding>
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--GPG 签名组件︎-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
